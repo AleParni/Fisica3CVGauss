@@ -4,32 +4,51 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>⚡ fisica3CT</title>
-    <style>
-        body {
-            background: #2b2b2b;
-            color: #e8e8f0;
-            font-family: 'Courier New', monospace;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 40px 20px;
-            line-height: 1.6;
-        }
-        h1 { color: #00e5ff; }
-        h2 { color: #00e5ff; border-left: 4px solid #00e5ff; padding-left: 15px; }
-        a { color: #00e5ff; text-decoration: none; }
-        a:hover { text-decoration: underline; }
-        .card {
-            background: #16161f;
-            border: 1px solid #00e5ff33;
-            padding: 20px;
-            margin: 20px 0;
-            border-radius: 4px;
-        }
-        hr { border-color: #00e5ff33; }
-    </style>
+  <style>
+    body {
+        background: #e0e0e0; /* Fondo gris claro */
+        color: #2b2b2b;      /* Letra gris muy oscuro (mejor lectura que el negro puro) */
+        font-family: 'Courier New', monospace;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 40px 20px;
+        line-height: 1.6;
+    }
+    h1 { 
+        color: #d32f2f; /* Un rojo vibrante para que resalte sobre el gris */
+    }
+    h2 { 
+        color: #1976d2; /* Un azul fuerte para recursos */
+        border-left: 4px solid #1976d2; 
+        padding-left: 15px; 
+    }
+    a { 
+        color: #007c91; /* Azul petróleo para los links, más legible en fondo claro */
+        text-decoration: underline; 
+    }
+    a:hover { 
+        color: #d32f2f; 
+    }
+    .card {
+        background: #f5f5f5; /* Fondo un poco más claro que el body para resaltar */
+        border: 1px solid #bcbcbc;
+        padding: 20px;
+        margin: 20px 0;
+        border-radius: 4px;
+    }
+    hr { border-color: #bcbcbc; }
+    
+    /* Estilo para que el footer se vea bien en fondo claro */
+    footer {
+        text-align: center; 
+        color: #555; 
+        font-size: 12px;
+        margin-top: 50px;
+    }
+</style>
 </head>
 <body>
-        <h1>Temas de estudio</h1>
+        <h1>Importancia del tema</h1>
                 <li><a href="temasestudio3ct.html"> LINK A LOS TEMAS PRINCIPALES DEL AÑO.</a></li>
 
         <h1>⚡Campo eléctrico</h1>
