@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>⚡ Física 3° - Prof. Alejandro Parnizari</title>
+    <title>⚡ Física 3° - Ley de Gauss</title>
     <style>
-        /* CONFIGURACIÓN VISUAL (Gris y Negro) */
+        /* CONFIGURACIÓN VISUAL (Gris Cemento y Negro) */
         html, body { 
-            background-color: #bdc3c7 !important; /* Gris cemento */
+            background-color: #bdc3c7 !important; 
             margin: 0; 
             padding: 0; 
         }
         body {
-            color: #1a1a1a; /* Letra gris oscuro/negro */
+            color: #1a1a1a;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             max-width: 900px;
             margin: 0 auto;
@@ -20,97 +20,87 @@
             line-height: 1.6;
         }
 
-        /* TÍTULOS Y SUBTÍTULOS */
-        h1 { color: #2c3e50; border-bottom: 3px solid #2980b9; padding-bottom: 10px; margin-top: 40px; }
-        h2 { color: #2980b9; margin-top: 30px; font-size: 1.4em; }
-        p { margin-bottom: 15px; }
+        /* TÍTULOS */
+        h1 { color: #2c3e50; border-bottom: 3px solid #e67e22; padding-bottom: 10px; margin-top: 40px; }
+        h2 { color: #2c3e50; background: #ecf0f1; padding: 10px; border-left: 8px solid #e67e22; border-radius: 4px; margin-top: 35px; }
 
-        /* CONTENEDORES DE LISTAS */
+        /* LISTAS DE RECURSOS */
         ul { list-style: none; padding: 0; }
         li { 
-            background: #ecf0f1; 
-            margin: 12px 0; 
-            padding: 15px; 
-            border-radius: 8px; 
-            border-left: 6px solid #2980b9;
-            box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+            background: #fdfdfd; 
+            margin: 15px 0; 
+            padding: 18px; 
+            border-radius: 10px; 
+            box-shadow: 3px 3px 10px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
         }
+        li:hover { transform: scale(1.01); }
 
-        /* ENLACES (Vistosos y fáciles de tocar) */
+        /* ENLACES TIPO BOTÓN */
         a { 
-            color: #d35400; /* Naranja para resaltar */
+            color: #d35400; 
             font-weight: bold; 
             text-decoration: none; 
-            transition: 0.3s;
         }
-        a:hover { color: #e67e22; text-decoration: underline; }
+        a:hover { text-decoration: underline; }
 
-        /* MULTIMEDIA (Imágenes y Videos) */
-        .media-container {
+        /* CONTENEDOR MULTIMEDIA */
+        .media-box {
             text-align: center;
-            margin: 20px 0;
-            background: #fdfdfd;
-            padding: 10px;
-            border-radius: 10px;
+            margin: 30px 0;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid #95a5a6;
         }
-        img, video {
-            max-width: 100%;
-            height: auto;
-            border-radius: 5px;
-        }
+        img { max-width: 100%; border-radius: 5px; }
 
-        /* PIE DE PÁGINA */
+        /* FOOTER */
         footer { 
             text-align: center; 
             margin-top: 60px; 
             padding: 30px; 
-            border-top: 2px solid #95a5a6;
-            color: #444;
+            border-top: 2px solid #7f8c8d;
+            font-size: 0.9em;
         }
     </style>
 </head>
 <body>
 
-    <h1>🚀 Física 3° CT / CV - 2026</h1>
-    <p>Bienvenido al repositorio de materiales. Aquí encontrarás las guías, simuladores y recursos teóricos del curso.</p>
+    <h1>📐 Unidad: Ley de Gauss</h1>
+    <p>La Ley de Gauss nos permite calcular campos eléctricos con alta simetría de una manera elegante, relacionando el flujo eléctrico con las fuentes de carga.</p>
 
-    <h2>📂 Unidades Temáticas</h2>
+    <h2>📖 Material Teórico</h2>
     <ul>
-        <li>📑 <a href="temasestudio3ct.html">Planificación Anual y Temas</a></li>
-        <li>⚡ <a href="campo_electrico.html">Unidad 1: Campo Eléctrico</a></li>
+        <li>📙 <a href="ley_gauss_teoria.pdf" target="_blank">Apunte: Flujo Eléctrico y Ley de Gauss</a></li>
+        <li>📝 <a href="ejemplos_simetria.pdf" target="_blank">Aplicaciones: Simetría Esférica y Cilíndrica</a></li>
     </ul>
 
-    <h2>📄 Repartidos y Guías (PDF)</h2>
+    <h2>✍️ Ejercitación y Problemas</h2>
     <ul>
-        <li>📥 <a href="campoelecctricoteo.pdf" target="_blank">Teórico: Fundamentos de Electrostática</a></li>
-        <li>📥 <a href="campoelectricoejercicios.pdf" target="_blank">Práctico: Guía de problemas #1</a></li>
-        <li>📥 <a href="Medicioneselectricas.pdf" target="_blank">Guía de Laboratorio #2</a></li>
+        <li>✏️ <a href="repartido_gauss.pdf" target="_blank">Repartido de ejercicios: Ley de Gauss</a></li>
+        <li>📂 <a href="respuestas_gauss.pdf" target="_blank">Guía de soluciones (Autocorrección)</a></li>
     </ul>
 
-    <h2>🎬 Recursos Visuales</h2>
-    <div class="media-container">
-        <img src="codigocolores.jpg" alt="Código de colores de resistencias">
-        <p><small>Infografía: Código de colores para resistores fijos.</small></p>
-        
-        </div>
+    <div class="media-box">
+        <h3>Superficies Gaussianas</h3>
+        <img src="superficie_gaussiana.jpg" alt="Esquema de Ley de Gauss">
+        <p><small>Representación del flujo neto a través de una superficie cerrada.</small></p>
+    </div>
 
-    <h2>💻 Laboratorio Virtual y Simuladores</h2>
+    <h2>💻 Laboratorio Virtual</h2>
     <ul>
-        <li>🧪 <a href="mapeoeditable.html">Simulador: Mapeo de líneas de campo</a></li>
-        <li>🔌 <a href="medicioneselectricaslab.html">Interactivos: Medidas Eléctricas</a></li>
-        <li>🎮 <a href="actividadescampoelectrico.html">Actividades de Gamificación</a></li>
+        <li>🧪 <a href="simulador_gauss.html">Interactivos: Cargas y Flujo Eléctrico</a></li>
+        <li>🎮 <a href="gamificacion_gauss.html">Desafío: ¿Cuánta carga hay encerrada?</a></li>
     </ul>
 
     <footer>
-        <p>👨‍🏫 <strong>Prof. Alejandro Parnizari</strong></p>
-        <p>Material educativo diseñado para estudiantes de bachillerato.</p>
-        
-        <div style="margin: 20px 0;">
+        <p>👨‍🏫 <strong>Prof. Alejandro Parnizari</strong> · Física 3° · 2026</p>
+        <div style="margin: 15px 0;">
             <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
-                <img alt="Licencia Creative Commons" src="https://i.creativecommons.org/l/by/4.0/88x31.png" />
+                <img alt="Licencia CC" src="https://i.creativecommons.org/l/by/4.0/88x31.png" />
             </a>
-            <br>
-            <small>Este contenido está bajo una <a href="http://creativecommons.org/licenses/by/4.0/">Licencia CC BY 4.0</a></small>
+            <p><small>Este material se comparte bajo Licencia Creative Commons 4.0</small></p>
         </div>
     </footer>
 
