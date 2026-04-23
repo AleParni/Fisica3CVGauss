@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚡ fisica3CT</title>
+    <style>
+        body {
+            background: #2b2b2b;
+            color: #e8e8f0;
+            font-family: 'Courier New', monospace;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            line-height: 1.6;
+        }
+        h1 { color: #00e5ff; }
+        h2 { color: #00e5ff; border-left: 4px solid #00e5ff; padding-left: 15px; }
+        a { color: #00e5ff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .card {
+            background: #16161f;
+            border: 1px solid #00e5ff33;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        hr { border-color: #00e5ff33; }
+    </style>
+</head>
+<body>
+        <h1>Temas de estudio</h1>
+                <li><a href="temasestudio3ct.html"> LINK A LOS TEMAS PRINCIPALES DEL AÑO.</a></li>
+
+        <h1>⚡Campo eléctrico</h1>
+    
+                <li><a href="campo_electrico.html"> Link al primer repartido de teórico de campo eléctrico."</a></li>
+
+
+
+    <h1>⚡Práctico#1 Mapeo de campo eléctrico</h1>
+                <li><a href="mapeoeditable.html"> Link al simulador de la primera parte de la práctica de "Mapeo de Campo Eléctrico"</a></li>
+        <p>En esta práctica intentaremos encontrar como es la geometría del campo eléctrico en la región formada entre dos láminas paralelas.</p>
+<li><a href="mapeocampoelectrico.html"> Link ak práctico #1</a></li>
+
+<h1>⚡Práctico#2 Medidas eléctricas</h1>
+    <p>Practicaremos el uso del multímetro, en esta ocasión mediremos directamente los valores de algunas resistencias para, posteriormente compararlos con los valores indicados por el código de color. ¿Qué sucederá con la resistencia si los valores medidos de dos formas diferentes difieren?</p>
+<img src="codigocolores.jpg" alt="Animación" style="width:580px;height:580px;object-fit:contain;display:block;margin-bottom:4px;">
+<p style="margin-top:4px;">Ilustración del código de colores para un resistor.</p>    
+              <p><a href="Medicioneselectricas..pdf" target="_blank">Ver PDF del práctico#2</a></p>
+              <p><a href="MANUALMULTIMETRODEMESTRES3801.pdf" target="_blank">Manual del multímetro amarillo</a></p>
+
+      <ul>
+            <li><a href="medicioneselectricaslab.html"> Link a la práctica de mediciones eléctricas interactivo</a></li>
+    </ul>
+    <h2>📚 Recursos</h2>
+                <p><a href="campoelecctricoteo.pdf" target="_blank">Acceso a las lecturas de teórico</a></p>
+              <p><a href="campoelectricoejercicios.pdf" target="_blank">Acceso al repartido de ejercicios</a></p>
+            <li><a href="actividadescampoelectrico.html"> Link a las actividades de campo eléctrico interactivas</a></li>
+
+    <hr>
+
+    <footer style="text-align:center; color:#666680; font-size:12px;">
+        <p>⚡ Material diseñado por <strong>Prof. Alejandro Parnizari</strong> · Asistido por <strong>Claude IA</strong></p>
+        <p><a href="https://creativecommons.org/licenses/by/4.0/" style="color:#00e5ff;">Licencia CC BY 4.0</a> · Física 3° CT 3° CV · 2026</p>
+    </footer>
+</body>
+</html>
