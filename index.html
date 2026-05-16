@@ -2,534 +2,391 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Simulador: Superficies Gaussianas</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📋 Quiz - Ley de Gauss</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            user-select: none; /* Evita selección molesta en móvil */
         }
 
-        body {
-            background: linear-gradient(145deg, #bdc3c7 0%, #95a5a6 100%);
+        .quiz-embedded {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        .sim-container {
-            max-width: 1100px;
-            width: 100%;
-            background: #fdfdfd;
-            border-radius: 28px;
-            box-shadow: 0 20px 35px rgba(0,0,0,0.2);
-            overflow: hidden;
-            transition: all 0.3s;
-        }
-
-        /* Encabezado */
-        .sim-header {
-            background: #2c3e50;
-            color: white;
-            padding: 20px 25px;
-            text-align: center;
-        }
-
-        .sim-header h2 {
-            font-size: 1.7rem;
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-
-        .sim-header p {
-            opacity: 0.85;
-            font-size: 0.95rem;
-        }
-
-        /* Área canvas + controles */
-        .canvas-area {
-            padding: 25px;
-            background: #ecf0f1;
-        }
-
-        .canvas-wrapper {
-            background: white;
-            border-radius: 24px;
-            padding: 15px;
-            box-shadow: inset 0 0 0 1px rgba(0,0,0,0.05), 0 8px 20px rgba(0,0,0,0.1);
-        }
-
-        canvas {
-            display: block;
-            width: 100%;
-            height: auto;
             background: #ffffff;
-            border-radius: 16px;
-            cursor: pointer;
-            margin: 0 auto;
+            border-radius: 12px;
+            padding: 5px;
         }
 
-        /* Controles táctiles / mouse */
-        .controls {
+        .question-card {
+            background: white;
+            padding: 5px;
+        }
+
+        .question-text {
+            font-size: 1em;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e67e22;
+            color: #2c3e50;
+            font-weight: 500;
+        }
+
+        .options {
             display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 20px;
-            margin-bottom: 10px;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 15px;
         }
 
-        .ctrl-btn {
-            background: #2c3e50;
-            border: none;
-            color: white;
-            padding: 10px 22px;
-            border-radius: 50px;
-            font-weight: bold;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: inline-flex;
+        .option {
+            display: flex;
             align-items: center;
             gap: 10px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            padding: 8px 12px;
+            background: #ecf0f1;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid transparent;
         }
 
-        .ctrl-btn:active {
-            transform: scale(0.96);
+        .option:hover {
+            background: #d5dbdb;
         }
 
-        .ctrl-btn.reset-btn {
-            background: #e67e22;
+        .option.selected {
+            background: #d35400;
+            color: white;
         }
 
-        .info-panel {
-            background: #fef9e6;
-            margin: 15px 25px 25px 25px;
-            padding: 18px;
-            border-radius: 20px;
-            border-left: 6px solid #e67e22;
-            font-size: 0.95rem;
+        .option input {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
         }
 
-        .info-panel strong {
-            color: #d35400;
+        .option label {
+            flex: 1;
+            cursor: pointer;
+            font-size: 0.9em;
         }
 
-        .leyenda {
+        .btn-group {
             display: flex;
+            gap: 10px;
+            margin: 15px 0;
             flex-wrap: wrap;
-            gap: 20px;
-            justify-content: center;
-            margin-top: 12px;
-            font-size: 0.85rem;
         }
 
-        .leyenda span {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.85em;
+            transition: all 0.2s;
         }
 
-        footer {
+        .btn-check {
+            background: #27ae60;
+            color: white;
+        }
+
+        .btn-check:hover {
+            background: #229954;
+        }
+
+        .btn-reset {
+            background: #7f8c8d;
+            color: white;
+        }
+
+        .btn-reset:hover {
+            background: #6c7a7a;
+        }
+
+        .feedback {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 8px;
+            display: none;
+            font-size: 0.85em;
+        }
+
+        .feedback.correct {
+            display: block;
+            background: #d5f5e3;
+            border-left: 4px solid #27ae60;
+            color: #1e8449;
+        }
+
+        .feedback.incorrect {
+            display: block;
+            background: #fadbd8;
+            border-left: 4px solid #e74c3c;
+            color: #922b21;
+        }
+
+        .feedback h4 {
+            margin-bottom: 5px;
+            font-size: 0.9em;
+        }
+
+        .progress-bar {
+            background: #ecf0f1;
+            border-radius: 8px;
+            height: 6px;
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: #e67e22;
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s;
+        }
+
+        .score {
             text-align: center;
-            padding: 15px;
-            font-size: 0.75rem;
+            font-size: 0.85em;
+            margin-top: 10px;
+            color: #2c3e50;
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+            gap: 10px;
+        }
+
+        .nav-btn {
             background: #2c3e50;
-            color: #bdc3c7;
+            color: white;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8em;
+        }
+
+        .nav-btn:hover {
+            background: #1a252f;
         }
     </style>
 </head>
 <body>
-<div class="sim-container">
-    <div class="sim-header">
-        <h2>
-            <span>🧲 Superficies Gaussianas</span>
-            <span>⚡ Flujo Eléctrico</span>
-        </h2>
-        <p>Toca / haz clic dentro del recuadro para dibujar una superficie gaussiana • Observa el flujo</p>
+<div class="quiz-embedded">
+    <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
     </div>
-
-    <div class="canvas-area">
-        <div class="canvas-wrapper">
-            <canvas id="gaussCanvas" width="900" height="500" style="width:100%; height:auto; max-width:900px; aspect-ratio:900/500"></canvas>
-        </div>
-        <div class="controls">
-            <button class="ctrl-btn" id="clearBtn">🧽 Borrar superficie</button>
-            <button class="ctrl-btn reset-btn" id="resetAllBtn">🔄 Reiniciar simulación</button>
-        </div>
-    </div>
-
-    <div class="info-panel" id="infoPanel">
-        <strong>📐 Superficie actual:</strong> <span id="shapeType">Ninguna</span><br>
-        <strong>🔘 Flujo eléctrico neto (Φ):</strong> <span id="fluxValue">0</span> (unidades arbitrarias)<br>
-        <strong>🧠 Explicación:</strong> <span id="explanationText">Dibuja una superficie cerrada (cuadro o círculo) alrededor de las cargas.</span>
-        <div class="leyenda">
-            <span>🔴 Carga positiva (+Q)</span>
-            <span>🔵 Carga negativa (-Q)</span>
-            <span>🟢 Superficie gaussiana (cerrada)</span>
-            <span>➡️ Líneas de campo salientes / entrantes</span>
-        </div>
-    </div>
-    <footer>
-        Visualización didáctica – Ley de Gauss: el flujo neto ∝ carga encerrada.
-    </footer>
+    <div id="questionArea"></div>
+    <div class="score" id="scoreDisplay"></div>
 </div>
 
 <script>
-    (function(){
-        // ----- CONFIGURACIÓN -----
-        const canvas = document.getElementById('gaussCanvas');
-        const ctx = canvas.getContext('2d');
-        
-        // Dimensiones reales del canvas (para coordenadas)
-        let width = 900;
-        let height = 500;
-        canvas.width = width;
-        canvas.height = height;
-        
-        // Ajuste responsivo (mantiene resolución)
-        function resizeCanvas() {
-            const container = canvas.parentElement;
-            const containerWidth = container.clientWidth;
-            canvas.style.width = `${containerWidth}px`;
-            canvas.style.height = 'auto';
+    // ==================== PREGUNTAS ====================
+    const questions = [
+        {
+            text: "❓ Si de una superficie cerrada salen más líneas de campo eléctrico que las que entran, ¿la carga neta encerrada es positiva?",
+            type: "vf",
+            correct: "V",
+            explanation: "✅ Correcto. Por la Ley de Gauss, el flujo neto es proporcional a la carga encerrada. Si salen más líneas (flujo positivo), la carga neta encerrada es positiva."
+        },
+        {
+            text: "❓ Si el flujo eléctrico a través de una superficie cerrada es nulo, ¿se puede afirmar que el campo eléctrico es cero en todos los puntos?",
+            type: "vf",
+            correct: "F",
+            explanation: "❌ Incorrecto. Flujo nulo no implica campo nulo en toda la superficie. Puede haber campo entrante y saliente que se cancele."
+        },
+        {
+            text: "❓ Si el flujo eléctrico a través de una superficie cerrada es nulo, ¿necesariamente no hay partículas cargadas encerradas?",
+            type: "vf",
+            correct: "F",
+            explanation: "❌ Incorrecto. El flujo neto puede ser nulo si hay cargas positivas y negativas encerradas cuya suma sea cero."
+        },
+        {
+            text: "📌 Una carga de 8 μC está en el centro de un cubo. El flujo total a través del cubo es:",
+            type: "multiple",
+            options: ["a) 8 μC/ε₀", "b) Cero", "c) Depende del tamaño", "d) 8 μC/(6ε₀)"],
+            correct: "a",
+            explanation: "✅ Correcto. Por Ley de Gauss, el flujo total solo depende de la carga encerrada: Φ = q/ε₀."
+        },
+        {
+            text: "📌 Se coloca una carga q cerca de una esfera conductora neutra. ¿Flujo a través de una superficie que ENCIERRA solo la esfera?",
+            type: "multiple",
+            options: ["a) q/ε₀", "b) Cero", "c) Depende de la posición", "d) q/(2ε₀)"],
+            correct: "b",
+            explanation: "✅ Correcto. La esfera es neutra (carga neta = 0). Por Ley de Gauss, flujo = 0. La carga externa no afecta."
+        },
+        {
+            text: "❓ Para un cubo con una carga en su centro, ¿el flujo a través de cada cara es el mismo (q/(6ε₀))?",
+            type: "vf",
+            correct: "V",
+            explanation: "✅ Correcto. Por simetría, la carga en el centro produce flujo igual a través de cada una de las 6 caras."
+        },
+        {
+            text: "❓ Si cambiamos de posición las cargas dentro de una superficie cerrada, el flujo neto cambia.",
+            type: "vf",
+            correct: "F",
+            explanation: "❌ Incorrecto. El flujo neto solo depende de la carga total encerrada, no de su posición."
         }
-        window.addEventListener('resize', () => { resizeCanvas(); drawAll(); });
-        resizeCanvas();
-        
-        // ---------- ESTADO ----------
-        let charges = [
-            { x: 250, y: 200, q: 1, type: 'positive' },   // positiva
-            { x: 650, y: 300, q: -1, type: 'negative' }   // negativa
-        ];
-        
-        // Superficie gaussiana: null o { type: 'rect' o 'circle', ... }
-        let gaussianSurface = null;
-        
-        // Variables para dibujar interactivamente
-        let isDrawing = false;
-        let startPoint = { x: 0, y: 0 };
-        let currentPoint = { x: 0, y: 0 };
-        let drawMode = null; // 'rect' o 'circle'
-        
-        // ----- FUNCIONES DE DIBUJO -----
-        function drawCharges() {
-            for (let c of charges) {
-                // Sombra suave
-                ctx.shadowBlur = 0;
-                // Gradiente para las cargas
-                const grd = ctx.createRadialGradient(c.x-5, c.y-5, 3, c.x, c.y, 18);
-                if (c.type === 'positive') {
-                    grd.addColorStop(0, '#e74c3c');
-                    grd.addColorStop(1, '#c0392b');
-                    ctx.fillStyle = grd;
-                } else {
-                    grd.addColorStop(0, '#3498db');
-                    grd.addColorStop(1, '#2471a3');
-                    ctx.fillStyle = grd;
-                }
-                ctx.beginPath();
-                ctx.arc(c.x, c.y, 18, 0, 2*Math.PI);
-                ctx.fill();
-                ctx.fillStyle = 'white';
-                ctx.font = 'bold 18px "Segoe UI"';
-                ctx.shadowBlur = 0;
-                ctx.fillText(c.q > 0 ? '+' : '−', c.x-7, c.y+7);
-                // Líneas de campo E (simuladas, radiales)
-                ctx.beginPath();
-                ctx.strokeStyle = c.q > 0 ? '#e67e22' : '#2980b9';
-                ctx.lineWidth = 1.5;
-                for (let ang = 0; ang < 360; ang += 45) {
-                    let rad = ang * Math.PI/180;
-                    let dx = Math.cos(rad)*28;
-                    let dy = Math.sin(rad)*28;
-                    ctx.beginPath();
-                    ctx.moveTo(c.x + dx*0.6, c.y + dy*0.6);
-                    ctx.lineTo(c.x + dx*1.2, c.y + dy*1.2);
-                    ctx.stroke();
-                }
-            }
+    ];
+
+    let currentIndex = 0;
+    let userAnswers = new Array(questions.length).fill(null);
+
+    const questionArea = document.getElementById("questionArea");
+    const progressFill = document.getElementById("progressFill");
+    const scoreDisplay = document.getElementById("scoreDisplay");
+
+    function updateProgress() {
+        const answered = userAnswers.filter(a => a !== null).length;
+        const percent = (answered / questions.length) * 100;
+        progressFill.style.width = `${percent}%`;
+        let correct = 0;
+        for (let i = 0; i < questions.length; i++) {
+            if (userAnswers[i] !== null && userAnswers[i] === questions[i].correct) correct++;
         }
-        
-        // Dibujar la superficie gaussiana actual (o la que se está dibujando)
-        function drawGaussianSurface() {
-            if (!gaussianSurface && drawMode === null) return;
-            
-            ctx.save();
-            ctx.strokeStyle = '#2ecc71';
-            ctx.fillStyle = 'rgba(46, 204, 113, 0.1)';
-            ctx.lineWidth = 3;
-            ctx.setLineDash([8, 6]);
-            
-            if (drawMode === 'rect' && startPoint && currentPoint) {
-                const x = Math.min(startPoint.x, currentPoint.x);
-                const y = Math.min(startPoint.y, currentPoint.y);
-                const w = Math.abs(currentPoint.x - startPoint.x);
-                const h = Math.abs(currentPoint.y - startPoint.y);
-                if (w > 5 && h > 5) {
-                    ctx.strokeRect(x, y, w, h);
-                    ctx.fillRect(x, y, w, h);
-                }
-            } 
-            else if (drawMode === 'circle' && startPoint && currentPoint) {
-                const rad = Math.hypot(currentPoint.x - startPoint.x, currentPoint.y - startPoint.y);
-                if (rad > 5) {
-                    ctx.beginPath();
-                    ctx.arc(startPoint.x, startPoint.y, rad, 0, 2*Math.PI);
-                    ctx.stroke();
-                    ctx.fill();
-                }
-            }
-            else if (gaussianSurface) {
-                if (gaussianSurface.type === 'rect') {
-                    ctx.strokeRect(gaussianSurface.x, gaussianSurface.y, gaussianSurface.w, gaussianSurface.h);
-                    ctx.fillRect(gaussianSurface.x, gaussianSurface.y, gaussianSurface.w, gaussianSurface.h);
-                } else if (gaussianSurface.type === 'circle') {
-                    ctx.beginPath();
-                    ctx.arc(gaussianSurface.cx, gaussianSurface.cy, gaussianSurface.r, 0, 2*Math.PI);
-                    ctx.stroke();
-                    ctx.fill();
-                }
-            }
-            ctx.setLineDash([]);
-            ctx.restore();
+        scoreDisplay.innerHTML = `📊 Progreso: ${answered}/${questions.length} | ✅ Aciertos: ${correct}`;
+        return correct;
+    }
+
+    function render() {
+        if (currentIndex >= questions.length) {
+            const correct = updateProgress();
+            questionArea.innerHTML = `
+                <div style="text-align: center; padding: 20px;">
+                    <h3>🎉 ¡Cuestionario completado!</h3>
+                    <p style="font-size: 1.3em; margin: 15px 0;">Puntaje: ${correct} / ${questions.length}</p>
+                    <button class="btn btn-reset" onclick="resetQuiz()">🔄 Reiniciar</button>
+                </div>
+            `;
+            return;
         }
-        
-        // Calcular flujo y explicación basada en carga encerrada (simulación conceptual)
-        function computeFluxAndExplanation() {
-            if (!gaussianSurface) {
-                document.getElementById('shapeType').innerText = 'Ninguna';
-                document.getElementById('fluxValue').innerText = '0';
-                document.getElementById('explanationText').innerHTML = '✏️ Dibuja una superficie cerrada (arrastra el mouse/dedo) alrededor de las cargas para medir el flujo neto.';
+
+        const q = questions[currentIndex];
+        const saved = userAnswers[currentIndex];
+
+        let optionsHtml = "";
+        if (q.type === "vf") {
+            optionsHtml = `
+                <div class="options">
+                    <div class="option ${saved === 'V' ? 'selected' : ''}" data-value="V">
+                        <input type="radio" name="q" value="V" id="v" ${saved === 'V' ? 'checked' : ''}>
+                        <label for="v">✅ Verdadero</label>
+                    </div>
+                    <div class="option ${saved === 'F' ? 'selected' : ''}" data-value="F">
+                        <input type="radio" name="q" value="F" id="f" ${saved === 'F' ? 'checked' : ''}>
+                        <label for="f">❌ Falso</label>
+                    </div>
+                </div>
+            `;
+        } else {
+            optionsHtml = `<div class="options">`;
+            q.options.forEach((opt, idx) => {
+                const letter = String.fromCharCode(97 + idx);
+                optionsHtml += `
+                    <div class="option ${saved === letter ? 'selected' : ''}" data-value="${letter}">
+                        <input type="radio" name="q" value="${letter}" id="${letter}" ${saved === letter ? 'checked' : ''}>
+                        <label for="${letter}">${opt}</label>
+                    </div>
+                `;
+            });
+            optionsHtml += `</div>`;
+        }
+
+        let feedbackHtml = "";
+        if (saved !== null) {
+            const isCorrect = (saved === q.correct);
+            feedbackHtml = `
+                <div class="feedback ${isCorrect ? 'correct' : 'incorrect'}">
+                    <h4>${isCorrect ? '✓ Correcto' : '✗ Incorrecto'}</h4>
+                    <p>${q.explanation}</p>
+                </div>
+            `;
+        }
+
+        const html = `
+            <div class="question-card">
+                <div class="question-text">
+                    <strong>${currentIndex + 1}/${questions.length}</strong><br>
+                    ${q.text}
+                </div>
+                ${optionsHtml}
+                <div class="btn-group">
+                    <button class="btn btn-check" id="checkBtn">🔍 Verificar</button>
+                    ${currentIndex < questions.length - 1 ? 
+                        '<button class="btn btn-reset" id="nextBtn">⏩ Siguiente</button>' : 
+                        '<button class="btn btn-reset" id="finishBtn">🏁 Finalizar</button>'}
+                </div>
+                ${feedbackHtml}
+            </div>
+        `;
+
+        questionArea.innerHTML = html;
+
+        // Eventos selección
+        document.querySelectorAll('.option').forEach(opt => {
+            opt.addEventListener('click', () => {
+                const radio = opt.querySelector('input');
+                if (radio) radio.checked = true;
+                document.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+                opt.classList.add('selected');
+                const val = opt.getAttribute('data-value');
+                userAnswers[currentIndex] = val;
+                updateProgress();
+                render();
+            });
+        });
+
+        document.getElementById("checkBtn")?.addEventListener("click", () => {
+            if (userAnswers[currentIndex] === null) {
+                alert("⚠️ Selecciona una respuesta primero.");
                 return;
             }
-            
-            let enclosedCharge = 0;
-            // Determinar qué cargas están dentro de la superficie
-            for (let c of charges) {
-                let inside = false;
-                if (gaussianSurface.type === 'rect') {
-                    const left = gaussianSurface.x, right = gaussianSurface.x + gaussianSurface.w;
-                    const top = gaussianSurface.y, bottom = gaussianSurface.y + gaussianSurface.h;
-                    if (c.x >= left && c.x <= right && c.y >= top && c.y <= bottom) inside = true;
-                } else if (gaussianSurface.type === 'circle') {
-                    const dx = c.x - gaussianSurface.cx;
-                    const dy = c.y - gaussianSurface.cy;
-                    if (Math.hypot(dx, dy) <= gaussianSurface.r) inside = true;
+            render();
+        });
+
+        const nextBtn = document.getElementById("nextBtn");
+        if (nextBtn) {
+            nextBtn.addEventListener("click", () => {
+                if (userAnswers[currentIndex] === null) {
+                    alert("⚠️ Responde antes de continuar.");
+                    return;
                 }
-                if (inside) enclosedCharge += c.q;
-            }
-            
-            // Flujo neto proporcional a carga encerrada (signo)
-            let flux = enclosedCharge * 15; // escalado visual didáctico
-            let fluxAbs = Math.abs(flux);
-            let fluxText = (flux > 0 ? '+' : '') + flux.toFixed(1);
-            let signText = (enclosedCharge > 0) ? 'positiva' : (enclosedCharge < 0) ? 'negativa' : 'nula';
-            let explanation = '';
-            if (Math.abs(enclosedCharge) < 0.01) {
-                explanation = `📌 La carga encerrada es ${signText} (Q_enc = 0). Por Ley de Gauss: Φ = Q_enc / ε₀ → Flujo neto = 0. Las líneas que entran son las mismas que salen.`;
-            } else if (enclosedCharge > 0) {
-                explanation = `✅ Carga encerrada POSITIVA (Q_enc = +${enclosedCharge}). Flujo neto > 0 → más líneas de campo SALEN que entran. Φ = Q_enc/ε₀.`;
-            } else {
-                explanation = `🔻 Carga encerrada NEGATIVA (Q_enc = ${enclosedCharge}). Flujo neto < 0 → más líneas de campo ENTRAN que salen. Φ = Q_enc/ε₀.`;
-            }
-            
-            document.getElementById('shapeType').innerText = (gaussianSurface.type === 'rect' ? 'Rectángulo (caja)' : 'Círculo (esfera 2D)');
-            document.getElementById('fluxValue').innerHTML = fluxText;
-            document.getElementById('explanationText').innerHTML = explanation + `<br><small>⚡ Flujo proporcional a la carga encerrada (concepto Ley de Gauss).</small>`;
-        }
-        
-        // Redibujar todo
-        function drawAll() {
-            ctx.clearRect(0, 0, width, height);
-            // Fondo sutil
-            ctx.fillStyle = '#fef9e6';
-            ctx.fillRect(0, 0, width, height);
-            // Ejes de guía
-            ctx.beginPath();
-            ctx.strokeStyle = '#ccc';
-            ctx.lineWidth = 0.5;
-            for (let i = 0; i < width; i += 50) {
-                ctx.beginPath();
-                ctx.moveTo(i, 0);
-                ctx.lineTo(i, height);
-                ctx.stroke();
-                ctx.beginPath();
-                ctx.moveTo(0, i);
-                ctx.lineTo(width, i);
-                ctx.stroke();
-            }
-            drawCharges();
-            drawGaussianSurface();
-            computeFluxAndExplanation();
-        }
-        
-        // ----- MANEJADORES DE DIBUJO (mouse / táctil unificado)-----
-        function getCanvasCoords(e) {
-            const rect = canvas.getBoundingClientRect();
-            const scaleX = canvas.width / rect.width;   // canvas físico 900 / ancho visual
-            const scaleY = canvas.height / rect.height;
-            let clientX, clientY;
-            if (e.touches) {
-                clientX = e.touches[0].clientX;
-                clientY = e.touches[0].clientY;
-            } else {
-                clientX = e.clientX;
-                clientY = e.clientY;
-            }
-            let canvasX = (clientX - rect.left) * scaleX;
-            let canvasY = (clientY - rect.top) * scaleY;
-            canvasX = Math.min(Math.max(0, canvasX), width);
-            canvasY = Math.min(Math.max(0, canvasY), height);
-            return { x: canvasX, y: canvasY };
-        }
-        
-        function onPointerStart(e) {
-            e.preventDefault();
-            const coords = getCanvasCoords(e);
-            startPoint = { x: coords.x, y: coords.y };
-            currentPoint = { x: coords.x, y: coords.y };
-            // Elegimos modo según tecla Ctrl? Por simplicidad: circulo si presionamos shift (teclado) pero mobile: rectángulo por defecto.
-            // Para hacer intuitivo: alternar? pero lo haremos: por defecto rectángulo, pero el botón de reset permite borrar. También usamos modalidad: con botón elegir? 
-            // Creamos dos botones rápidos en controles? Agregamos botón "Modo círculo" / "Modo rect" para fluidez.
-            drawMode = 'rect';  // por defecto rectángulo (más fácil). El usuario puede borrar y dibujar.
-            isDrawing = true;
-        }
-        
-        function onPointerMove(e) {
-            if (!isDrawing) return;
-            e.preventDefault();
-            const coords = getCanvasCoords(e);
-            currentPoint = { x: coords.x, y: coords.y };
-            drawAll(); 
-            // Se dibuja temporal (drawGaussianSurface usa drawMode)
-        }
-        
-        function onPointerEnd(e) {
-            if (!isDrawing) return;
-            e.preventDefault();
-            // Finalizar superficie
-            const endPoint = getCanvasCoords(e);
-            let finalX = endPoint.x;
-            let finalY = endPoint.y;
-            let minX = Math.min(startPoint.x, finalX);
-            let minY = Math.min(startPoint.y, finalY);
-            let maxX = Math.max(startPoint.x, finalX);
-            let maxY = Math.max(startPoint.y, finalY);
-            let widthRect = maxX - minX;
-            let heightRect = maxY - minY;
-            
-            if (drawMode === 'rect') {
-                if (widthRect > 8 && heightRect > 8) {
-                    gaussianSurface = {
-                        type: 'rect',
-                        x: minX,
-                        y: minY,
-                        w: widthRect,
-                        h: heightRect
-                    };
-                } else { alert("Superficie demasiado pequeña. Intenta de nuevo."); }
-            } 
-            else if (drawMode === 'circle') {
-                let rad = Math.hypot(finalX - startPoint.x, finalY - startPoint.y);
-                if (rad > 8) {
-                    gaussianSurface = {
-                        type: 'circle',
-                        cx: startPoint.x,
-                        cy: startPoint.y,
-                        r: rad
-                    };
-                } else { alert("Radio muy pequeño."); }
-            }
-            isDrawing = false;
-            drawMode = null;
-            drawAll();
-        }
-        
-        // Limpiar superficie
-        function clearSurface() {
-            gaussianSurface = null;
-            drawMode = null;
-            isDrawing = false;
-            drawAll();
-        }
-        
-        function resetAll() {
-            gaussianSurface = null;
-            drawMode = null;
-            isDrawing = false;
-            charges = [
-                { x: 250, y: 200, q: 1, type: 'positive' },
-                { x: 650, y: 300, q: -1, type: 'negative' }
-            ];
-            drawAll();
-        }
-        
-        // Switch modo: añadimos botones en el DOM para cambiar entre rectángulo y círculo
-        function addModeButtons() {
-            const container = document.querySelector('.controls');
-            const btnRect = document.createElement('button');
-            btnRect.innerText = '📐 Modo Rectángulo';
-            btnRect.className = 'ctrl-btn';
-            btnRect.style.background = '#27ae60';
-            const btnCircle = document.createElement('button');
-            btnCircle.innerText = '⚪ Modo Círculo';
-            btnCircle.className = 'ctrl-btn';
-            btnCircle.style.background = '#2980b9';
-            
-            let currentMode = 'rect';
-            btnRect.addEventListener('click', () => {
-                currentMode = 'rect';
-                alert('Modo: dibuja rectángulo arrastrando');
+                currentIndex++;
+                render();
+                updateProgress();
             });
-            btnCircle.addEventListener('click', () => {
-                currentMode = 'circle';
-                alert('Modo: dibuja círculo arrastrando');
+        }
+
+        const finishBtn = document.getElementById("finishBtn");
+        if (finishBtn) {
+            finishBtn.addEventListener("click", () => {
+                if (userAnswers[currentIndex] === null) {
+                    alert("⚠️ Responde antes de finalizar.");
+                    return;
+                }
+                currentIndex = questions.length;
+                render();
+                updateProgress();
             });
-            // Sobrescribir el evento start para elegir modo según selección
-            const originalStart = onPointerStart;
-            canvas.removeEventListener('mousedown', onPointerStart);
-            canvas.removeEventListener('touchstart', onPointerStart);
-            const newStart = (e) => {
-                e.preventDefault();
-                const coords = getCanvasCoords(e);
-                startPoint = { x: coords.x, y: coords.y };
-                currentPoint = { x: coords.x, y: coords.y };
-                drawMode = currentMode;
-                isDrawing = true;
-            };
-            canvas.addEventListener('mousedown', newStart);
-            canvas.addEventListener('touchstart', newStart);
-            container.appendChild(btnRect);
-            container.appendChild(btnCircle);
         }
-        
-        // ----- EVENTOS -----
-        function attachEvents() {
-            canvas.addEventListener('mousedown', onPointerStart);
-            canvas.addEventListener('mousemove', onPointerMove);
-            canvas.addEventListener('mouseup', onPointerEnd);
-            canvas.addEventListener('touchstart', onPointerStart, {passive: false});
-            canvas.addEventListener('touchmove', onPointerMove, {passive: false});
-            canvas.addEventListener('touchend', onPointerEnd);
-            document.getElementById('clearBtn').addEventListener('click', clearSurface);
-            document.getElementById('resetAllBtn').addEventListener('click', resetAll);
-        }
-        
-        attachEvents();
-        addModeButtons();   // agrega selectores de modo
-        drawAll();
-    })();
+    }
+
+    window.resetQuiz = function() {
+        userAnswers.fill(null);
+        currentIndex = 0;
+        updateProgress();
+        render();
+    };
+
+    updateProgress();
+    render();
 </script>
 </body>
 </html>
