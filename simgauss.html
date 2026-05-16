@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📋 Quiz Interactivo - Ley de Gauss</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #bdc3c7;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        /* Encabezado */
+        .quiz-header {
+            background: #2c3e50;
+            color: white;
+            padding: 30px;
+            border-radius: 15px 15px 0 0;
+            text-align: center;
+        }
+
+        .quiz-header h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .quiz-header p {
+            opacity: 0.9;
+        }
+
+        /* Tarjeta de pregunta */
+        .question-card {
+            background: white;
+            border-radius: 0 0 15px 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+
+        .question-text {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e67e22;
+            color: #2c3e50;
+        }
+
+        /* Opciones */
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 15px;
+            background: #ecf0f1;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 2px solid transparent;
+        }
+
+        .option:hover {
+            background: #d5dbdb;
+            transform: translateX(5px);
+        }
+
+        .option.selected {
+            background: #d35400;
+            color: white;
+            border-color: #2c3e50;
+        }
+
+        .option input {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .option label {
+            flex: 1;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        /* Botones */
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1em;
+            transition: all 0.2s;
+        }
+
+        .btn-check {
+            background: #27ae60;
+            color: white;
+        }
+
+        .btn-check:hover {
+            background: #229954;
+            transform: scale(1.02);
+        }
+
+        .btn-reset {
+            background: #7f8c8d;
+            color: white;
+        }
+
+        .btn-reset:hover {
+            background: #6c7a7a;
+        }
+
+        /* Retroalimentación */
+        .feedback {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            display: none;
+        }
+
+        .feedback.correct {
+            display: block;
+            background: #d5f5e3;
+            border-left: 5px solid #27ae60;
+            color: #1e8449;
+        }
+
+        .feedback.incorrect {
+            display: block;
+            background: #fadbd8;
+            border-left: 5px solid #e74c3c;
+            color: #922b21;
+        }
+
+        .feedback h4 {
+            margin-bottom: 8px;
+        }
+
+        /* Barra de progreso */
+        .progress-bar {
+            background: #ecf0f1;
+            border-radius: 10px;
+            height: 10px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: #e67e22;
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s;
+            border-radius: 10px;
+        }
+
+        .score {
+            text-align: center;
+            font-size: 1.1em;
+            margin-top: 15px;
+            color: #2c3e50;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #2c3e50;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="quiz-header">
+        <h1>📋 Cuestionario: Ley de Gauss</h1>
+        <p>Basado en el Repartido de Problemas • Responde y aprende</p>
+    </div>
+
+    <div class="question-card" id="quizContainer">
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <div id="questionArea"></div>
+        <div class="score" id="scoreDisplay"></div>
+        <footer>
+            <p>⚡ Material de Física 3° - Prof. Alejandro Parnizari</p>
+        </footer>
+    </div>
+</div>
+
+<script>
+    // ==================== BASE DE PREGUNTAS ====================
+    const questions = [
+        {   // Pregunta 1 - Verdadero/Falso basado en problema 3
+            text: "❓ Si de una superficie cerrada salen más líneas de campo eléctrico que las que entran, ¿la carga neta encerrada es positiva?",
+            type: "vf",
+            correct: "V",
+            explanation: "✅ Correcto. Por la Ley de Gauss, el flujo neto es proporcional a la carga encerrada. Si salen más líneas (flujo positivo), la carga neta encerrada es positiva. (Fundamento: Problema 3 del repartido)"
+        },
+        {   // Pregunta 2 - Verdadero/Falso basado en problema 6b
+            text: "❓ Si el flujo eléctrico a través de una superficie cerrada es nulo, ¿se puede afirmar que el campo eléctrico es cero en todos los puntos de dicha superficie?",
+            type: "vf",
+            correct: "F",
+            explanation: "❌ Incorrecto. Flujo nulo no implica campo nulo en toda la superficie. Puede haber campo entrante y saliente que se cancele. (Problema 6b del repartido)"
+        },
+        {   // Pregunta 3 - Verdadero/Falso basado en problema 6c
+            text: "❓ Si el flujo eléctrico a través de una superficie cerrada es nulo, ¿necesariamente no hay partículas cargadas encerradas?",
+            type: "vf",
+            correct: "F",
+            explanation: "❌ Incorrecto. El flujo neto puede ser nulo si hay cargas positivas y negativas encerradas cuya suma sea cero. (Problema 6c del repartido)"
+        },
+        {   // Pregunta 4 - Múltiple opción (basado en problema 8)
+            text: "📌 Se coloca una carga puntual q cerca de una esfera conductora neutra. ¿Cuál de las siguientes afirmaciones sobre el flujo a través de una superficie cerrada que ENCIERRA SOLO la esfera conductora es correcta?",
+            type: "multiple",
+            options: ["a) El flujo es q/ε₀", "b) El flujo es cero porque la esfera es neutra", "c) El flujo depende de la posición de q", "d) El flujo es q/(2ε₀)"],
+            correct: "b",
+            explanation: "✅ Correcto. La superficie encierra solo la esfera conductora neutra (carga neta = 0). Por Ley de Gauss, flujo = carga_encerrada/ε₀ = 0. La carga externa q no afecta el flujo neto. (Problema 8)"
+        },
+        {   // Pregunta 5 - Múltiple opción (basado en problema 1)
+            text: "📌 Un tarro cilíndrico abierto (sin tapa) está inmerso en un campo E uniforme horizontal. ¿Cómo se calcula el flujo a través del tarro?",
+            type: "multiple",
+            options: ["a) E × (área de la base)", "b) E × (área lateral)", "c) E × (área de la base × cosθ)", "d) Es cero porque está abierto"],
+            correct: "a",
+            explanation: "✅ Correcto. El flujo a través de una superficie abierta se calcula con E·A. Como el campo es perpendicular a la base (si la tapa abierta mira al campo), el flujo es E × A_base. (Problema 1)"
+        },
+        {   // Pregunta 6 - Múltiple opción (basado en problema 4a)
+            text: "📌 Una carga de 8 μC está en el centro de un cubo de 20 cm de arista. El flujo total a través del cubo es:",
+            type: "multiple",
+            options: ["a) 8 μC/ε₀", "b) Cero", "c) Depende del tamaño del cubo", "d) 8 μC/(6ε₀)"],
+            correct: "a",
+            explanation: "✅ Correcto. Por Ley de Gauss, el flujo total solo depende de la carga encerrada, no de la forma ni tamaño: Φ = q/ε₀ = (8×10⁻⁶)/(8.85×10⁻¹²) N·m²/C. (Problema 4a)"
+        },
+        {   // Pregunta 7 - Verdadero/Falso (basado en problema 4b)
+            text: "❓ Para un cubo con una carga en su centro, ¿el flujo a través de cada cara es el mismo (q/(6ε₀))?",
+            type: "vf",
+            correct: "V",
+            explanation: "✅ Correcto. Por simetría, la carga en el centro produce flujo igual a través de cada una de las 6 caras. Flujo_total/6 = q/(6ε₀). (Problema 4b)"
+        },
+        {   // Pregunta 8 - Múltiple (problema 5a conceptual)
+            text: "📌 Si dentro de una superficie cerrada hay varias cargas q₁, q₂, q₃, el flujo eléctrico neto es:",
+            type: "multiple",
+            options: ["a) (q₁+q₂+q₃)/ε₀", "b) La suma de flujos individuales", "c) Depende de la posición relativa", "d) a) y b) son correctas"],
+            correct: "d",
+            explanation: "✅ Correcto. El flujo neto es (q₁+q₂+q₃)/ε₀ (por superposición) y también es la suma algebraica de los flujos individuales. (Problema 5a)"
+        },
+        {   // Pregunta 9 - Verdadero/Falso (problema 5b)
+            text: "❓ Si cambiamos de posición las cargas dentro de una superficie cerrada, el flujo neto a través de la superficie cambia.",
+            type: "vf",
+            correct: "F",
+            explanation: "❌ Incorrecto. El flujo neto solo depende de la carga total encerrada, no de cómo estén distribuidas. (Problema 5b)"
+        },
+        {   // Pregunta 10 - Múltiple (problema 23 conceptual)
+            text: "📌 Una esfera conductora de radio 20 cm con carga +4 μC tiene un cascarón esférico conductor exterior de radio 40 cm con carga -6 μC. ¿Cuál es la carga en la superficie interior del cascarón?",
+            type: "multiple",
+            options: ["a) -4 μC", "b) +6 μC", "c) -6 μC", "d) 0 μC"],
+            correct: "a",
+            explanation: "✅ Correcto. Por inducción, la superficie interior del cascarón debe tener carga -4 μC para que el campo dentro del conductor (entre esfera y cascarón) sea cero. (Problema 23)"
+        }
+    ];
+
+    let currentQuestionIndex = 0;
+    let userAnswers = new Array(questions.length).fill(null);
+    let quizFinished = false;
+
+    // Elementos DOM
+    const questionArea = document.getElementById("questionArea");
+    const progressFill = document.getElementById("progressFill");
+    const scoreDisplay = document.getElementById("scoreDisplay");
+
+    function updateProgress() {
+        const answeredCount = userAnswers.filter(a => a !== null).length;
+        const percent = (answeredCount / questions.length) * 100;
+        progressFill.style.width = `${percent}%`;
+        let correctCount = 0;
+        for (let i = 0; i < questions.length; i++) {
+            if (userAnswers[i] !== null && userAnswers[i] === questions[i].correct) correctCount++;
+        }
+        scoreDisplay.innerHTML = `📊 Progreso: ${answeredCount}/${questions.length} respondidas | ✅ Aciertos: ${correctCount} | ❌ Errores: ${answeredCount - correctCount}`;
+        return correctCount;
+    }
+
+    function renderCurrentQuestion() {
+        if (currentQuestionIndex >= questions.length) {
+            const correctCount = updateProgress();
+            questionArea.innerHTML = `
+                <div style="text-align: center; padding: 30px;">
+                    <h2>🎉 ¡Cuestionario completado!</h2>
+                    <p style="font-size: 1.5em; margin: 20px 0;">Tu puntaje: ${correctCount} / ${questions.length}</p>
+                    <p>${correctCount === questions.length ? "⭐ ¡Perfecto! Dominas la Ley de Gauss." : "📚 Revisa las explicaciones para mejorar."}</p>
+                    <button class="btn btn-reset" onclick="resetQuiz()">🔄 Volver a empezar</button>
+                </div>
+            `;
+            quizFinished = true;
+            return;
+        }
+
+        quizFinished = false;
+        const q = questions[currentQuestionIndex];
+        const savedAnswer = userAnswers[currentQuestionIndex];
+
+        let optionsHtml = "";
+        if (q.type === "vf") {
+            optionsHtml = `
+                <div class="options">
+                    <div class="option ${savedAnswer === 'V' ? 'selected' : ''}" data-value="V">
+                        <input type="radio" name="question" value="V" id="optV" ${savedAnswer === 'V' ? 'checked' : ''}>
+                        <label for="optV">✅ Verdadero</label>
+                    </div>
+                    <div class="option ${savedAnswer === 'F' ? 'selected' : ''}" data-value="F">
+                        <input type="radio" name="question" value="F" id="optF" ${savedAnswer === 'F' ? 'checked' : ''}>
+                        <label for="optF">❌ Falso</label>
+                    </div>
+                </div>
+            `;
+        } else {
+            optionsHtml = `<div class="options">`;
+            q.options.forEach((opt, idx) => {
+                const letter = String.fromCharCode(97 + idx); // a, b, c, d
+                const isChecked = (savedAnswer === letter);
+                optionsHtml += `
+                    <div class="option ${isChecked ? 'selected' : ''}" data-value="${letter}">
+                        <input type="radio" name="question" value="${letter}" id="opt${letter}" ${isChecked ? 'checked' : ''}>
+                        <label for="opt${letter}">${opt}</label>
+                    </div>
+                `;
+            });
+            optionsHtml += `</div>`;
+        }
+
+        let feedbackHtml = "";
+        if (savedAnswer !== null) {
+            const isCorrect = (savedAnswer === q.correct);
+            feedbackHtml = `
+                <div class="feedback ${isCorrect ? 'correct' : 'incorrect'}">
+                    <h4>${isCorrect ? '✓ Correcto' : '✗ Incorrecto'}</h4>
+                    <p>${q.explanation}</p>
+                </div>
+            `;
+        }
+
+        const html = `
+            <div>
+                <div class="question-text">
+                    <strong>Pregunta ${currentQuestionIndex + 1} de ${questions.length}</strong><br>
+                    ${q.text}
+                </div>
+                ${optionsHtml}
+                <div class="btn-group">
+                    <button class="btn btn-check" id="checkBtn">🔍 Verificar respuesta</button>
+                    ${currentQuestionIndex < questions.length - 1 ? '<button class="btn btn-reset" id="nextBtn">⏩ Siguiente pregunta</button>' : '<button class="btn btn-reset" id="finishBtn">🏁 Finalizar cuestionario</button>'}
+                </div>
+                ${feedbackHtml}
+            </div>
+        `;
+
+        questionArea.innerHTML = html;
+
+        // Event listeners para selección visual
+        document.querySelectorAll('.option').forEach(opt => {
+            opt.addEventListener('click', function(e) {
+                if (quizFinished) return;
+                const radio = this.querySelector('input[type="radio"]');
+                if (radio) radio.checked = true;
+                document.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+                this.classList.add('selected');
+                // Guardar respuesta temporalmente
+                const selectedValue = this.getAttribute('data-value');
+                userAnswers[currentQuestionIndex] = selectedValue;
+                updateProgress();
+                renderCurrentQuestion(); // re-render para reflejar guardado
+            });
+        });
+
+        document.getElementById("checkBtn")?.addEventListener("click", () => {
+            if (quizFinished) return;
+            const selected = userAnswers[currentQuestionIndex];
+            if (!selected) {
+                alert("⚠️ Por favor, selecciona una respuesta antes de verificar.");
+                return;
+            }
+            renderCurrentQuestion(); // refresca para mostrar feedback
+        });
+
+        const nextBtn = document.getElementById("nextBtn");
+        if (nextBtn) {
+            nextBtn.addEventListener("click", () => {
+                if (quizFinished) return;
+                if (userAnswers[currentQuestionIndex] === null) {
+                    alert("⚠️ Responde la pregunta actual antes de continuar.");
+                    return;
+                }
+                currentQuestionIndex++;
+                renderCurrentQuestion();
+                updateProgress();
+            });
+        }
+
+        const finishBtn = document.getElementById("finishBtn");
+        if (finishBtn) {
+            finishBtn.addEventListener("click", () => {
+                if (quizFinished) return;
+                if (userAnswers[currentQuestionIndex] === null) {
+                    alert("⚠️ Responde la última pregunta antes de finalizar.");
+                    return;
+                }
+                currentQuestionIndex = questions.length;
+                renderCurrentQuestion();
+                updateProgress();
+            });
+        }
+    }
+
+    window.resetQuiz = function() {
+        userAnswers.fill(null);
+        currentQuestionIndex = 0;
+        quizFinished = false;
+        updateProgress();
+        renderCurrentQuestion();
+    };
+
+    // Inicializar
+    updateProgress();
+    renderCurrentQuestion();
+</script>
+</body>
+</html>
