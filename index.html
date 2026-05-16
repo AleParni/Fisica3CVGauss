@@ -3,390 +3,117 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>📋 Quiz - Ley de Gauss</title>
+    <title>⚡ Física 3° - Ley de Gauss</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        /* CONFIGURACIÓN VISUAL (Gris Cemento y Negro) */
+        html, body { 
+            background-color: #bdc3c7 !important; 
+            margin: 0; 
+            padding: 0; 
         }
-
-        .quiz-embedded {
+        body {
+            color: #1a1a1a;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #ffffff;
-            border-radius: 12px;
-            padding: 5px;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            line-height: 1.6;
         }
 
-        .question-card {
-            background: white;
-            padding: 5px;
-        }
+        /* TÍTULOS */
+        h1 { color: #2c3e50; border-bottom: 3px solid #e67e22; padding-bottom: 10px; margin-top: 40px; }
+        h2 { color: #2c3e50; background: #ecf0f1; padding: 10px; border-left: 8px solid #e67e22; border-radius: 4px; margin-top: 35px; }
 
-        .question-text {
-            font-size: 1em;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #e67e22;
-            color: #2c3e50;
-            font-weight: 500;
+        /* LISTAS DE RECURSOS */
+        ul { list-style: none; padding: 0; }
+        li { 
+            background: #fdfdfd; 
+            margin: 15px 0; 
+            padding: 18px; 
+            border-radius: 10px; 
+            box-shadow: 3px 3px 10px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
         }
+        li:hover { transform: scale(1.01); }
 
-        .options {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            margin-bottom: 15px;
+        /* ENLACES TIPO BOTÓN */
+        a { 
+            color: #d35400; 
+            font-weight: bold; 
+            text-decoration: none; 
         }
+        a:hover { text-decoration: underline; }
 
-        .option {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 8px 12px;
-            background: #ecf0f1;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s;
-            border: 1px solid transparent;
-        }
-
-        .option:hover {
-            background: #d5dbdb;
-        }
-
-        .option.selected {
-            background: #d35400;
-            color: white;
-        }
-
-        .option input {
-            width: 18px;
-            height: 18px;
-            cursor: pointer;
-        }
-
-        .option label {
-            flex: 1;
-            cursor: pointer;
-            font-size: 0.9em;
-        }
-
-        .btn-group {
-            display: flex;
-            gap: 10px;
-            margin: 15px 0;
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            padding: 8px 16px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 0.85em;
-            transition: all 0.2s;
-        }
-
-        .btn-check {
-            background: #27ae60;
-            color: white;
-        }
-
-        .btn-check:hover {
-            background: #229954;
-        }
-
-        .btn-reset {
-            background: #7f8c8d;
-            color: white;
-        }
-
-        .btn-reset:hover {
-            background: #6c7a7a;
-        }
-
-        .feedback {
-            margin-top: 15px;
-            padding: 12px;
-            border-radius: 8px;
-            display: none;
-            font-size: 0.85em;
-        }
-
-        .feedback.correct {
-            display: block;
-            background: #d5f5e3;
-            border-left: 4px solid #27ae60;
-            color: #1e8449;
-        }
-
-        .feedback.incorrect {
-            display: block;
-            background: #fadbd8;
-            border-left: 4px solid #e74c3c;
-            color: #922b21;
-        }
-
-        .feedback h4 {
-            margin-bottom: 5px;
-            font-size: 0.9em;
-        }
-
-        .progress-bar {
-            background: #ecf0f1;
-            border-radius: 8px;
-            height: 6px;
-            margin-bottom: 15px;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            background: #e67e22;
-            height: 100%;
-            width: 0%;
-            transition: width 0.3s;
-        }
-
-        .score {
+        /* CONTENEDOR MULTIMEDIA */
+        .media-box {
             text-align: center;
-            font-size: 0.85em;
-            margin-top: 10px;
-            color: #2c3e50;
+            margin: 30px 0;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid #95a5a6;
         }
+        img { max-width: 100%; border-radius: 5px; }
 
-        .nav-buttons {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 15px;
-            gap: 10px;
-        }
-
-        .nav-btn {
-            background: #2c3e50;
-            color: white;
-            padding: 8px 12px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.8em;
-        }
-
-        .nav-btn:hover {
-            background: #1a252f;
+        /* FOOTER */
+        footer { 
+            text-align: center; 
+            margin-top: 60px; 
+            padding: 30px; 
+            border-top: 2px solid #7f8c8d;
+            font-size: 0.9em;
         }
     </style>
 </head>
 <body>
-<div class="quiz-embedded">
-    <div class="progress-bar">
-        <div class="progress-fill" id="progressFill"></div>
-    </div>
-    <div id="questionArea"></div>
-    <div class="score" id="scoreDisplay"></div>
-</div>
 
-<script>
-    // ==================== PREGUNTAS ====================
-    const questions = [
-        {
-            text: "❓ Si de una superficie cerrada salen más líneas de campo eléctrico que las que entran, ¿la carga neta encerrada es positiva?",
-            type: "vf",
-            correct: "V",
-            explanation: "✅ Correcto. Por la Ley de Gauss, el flujo neto es proporcional a la carga encerrada. Si salen más líneas (flujo positivo), la carga neta encerrada es positiva."
-        },
-        {
-            text: "❓ Si el flujo eléctrico a través de una superficie cerrada es nulo, ¿se puede afirmar que el campo eléctrico es cero en todos los puntos?",
-            type: "vf",
-            correct: "F",
-            explanation: "❌ Incorrecto. Flujo nulo no implica campo nulo en toda la superficie. Puede haber campo entrante y saliente que se cancele."
-        },
-        {
-            text: "❓ Si el flujo eléctrico a través de una superficie cerrada es nulo, ¿necesariamente no hay partículas cargadas encerradas?",
-            type: "vf",
-            correct: "F",
-            explanation: "❌ Incorrecto. El flujo neto puede ser nulo si hay cargas positivas y negativas encerradas cuya suma sea cero."
-        },
-        {
-            text: "📌 Una carga de 8 μC está en el centro de un cubo. El flujo total a través del cubo es:",
-            type: "multiple",
-            options: ["a) 8 μC/ε₀", "b) Cero", "c) Depende del tamaño", "d) 8 μC/(6ε₀)"],
-            correct: "a",
-            explanation: "✅ Correcto. Por Ley de Gauss, el flujo total solo depende de la carga encerrada: Φ = q/ε₀."
-        },
-        {
-            text: "📌 Se coloca una carga q cerca de una esfera conductora neutra. ¿Flujo a través de una superficie que ENCIERRA solo la esfera?",
-            type: "multiple",
-            options: ["a) q/ε₀", "b) Cero", "c) Depende de la posición", "d) q/(2ε₀)"],
-            correct: "b",
-            explanation: "✅ Correcto. La esfera es neutra (carga neta = 0). Por Ley de Gauss, flujo = 0. La carga externa no afecta."
-        },
-        {
-            text: "❓ Para un cubo con una carga en su centro, ¿el flujo a través de cada cara es el mismo (q/(6ε₀))?",
-            type: "vf",
-            correct: "V",
-            explanation: "✅ Correcto. Por simetría, la carga en el centro produce flujo igual a través de cada una de las 6 caras."
-        },
-        {
-            text: "❓ Si cambiamos de posición las cargas dentro de una superficie cerrada, el flujo neto cambia.",
-            type: "vf",
-            correct: "F",
-            explanation: "❌ Incorrecto. El flujo neto solo depende de la carga total encerrada, no de su posición."
-        }
-    ];
+    <h1>📐 Unidad: Ley de Gauss</h1>
+    <p>La Ley de Gauss nos permite calcular campos eléctricos con alta simetría de una manera elegante, relacionando el flujo eléctrico con las fuentes de carga.</p>
 
-    let currentIndex = 0;
-    let userAnswers = new Array(questions.length).fill(null);
-
-    const questionArea = document.getElementById("questionArea");
-    const progressFill = document.getElementById("progressFill");
-    const scoreDisplay = document.getElementById("scoreDisplay");
-
-    function updateProgress() {
-        const answered = userAnswers.filter(a => a !== null).length;
-        const percent = (answered / questions.length) * 100;
-        progressFill.style.width = `${percent}%`;
-        let correct = 0;
-        for (let i = 0; i < questions.length; i++) {
-            if (userAnswers[i] !== null && userAnswers[i] === questions[i].correct) correct++;
-        }
-        scoreDisplay.innerHTML = `📊 Progreso: ${answered}/${questions.length} | ✅ Aciertos: ${correct}`;
-        return correct;
-    }
-
-    function render() {
-        if (currentIndex >= questions.length) {
-            const correct = updateProgress();
-            questionArea.innerHTML = `
-                <div style="text-align: center; padding: 20px;">
-                    <h3>🎉 ¡Cuestionario completado!</h3>
-                    <p style="font-size: 1.3em; margin: 15px 0;">Puntaje: ${correct} / ${questions.length}</p>
-                    <button class="btn btn-reset" onclick="resetQuiz()">🔄 Reiniciar</button>
-                </div>
-            `;
-            return;
-        }
-
-        const q = questions[currentIndex];
-        const saved = userAnswers[currentIndex];
-
-        let optionsHtml = "";
-        if (q.type === "vf") {
-            optionsHtml = `
-                <div class="options">
-                    <div class="option ${saved === 'V' ? 'selected' : ''}" data-value="V">
-                        <input type="radio" name="q" value="V" id="v" ${saved === 'V' ? 'checked' : ''}>
-                        <label for="v">✅ Verdadero</label>
-                    </div>
-                    <div class="option ${saved === 'F' ? 'selected' : ''}" data-value="F">
-                        <input type="radio" name="q" value="F" id="f" ${saved === 'F' ? 'checked' : ''}>
-                        <label for="f">❌ Falso</label>
-                    </div>
-                </div>
-            `;
-        } else {
-            optionsHtml = `<div class="options">`;
-            q.options.forEach((opt, idx) => {
-                const letter = String.fromCharCode(97 + idx);
-                optionsHtml += `
-                    <div class="option ${saved === letter ? 'selected' : ''}" data-value="${letter}">
-                        <input type="radio" name="q" value="${letter}" id="${letter}" ${saved === letter ? 'checked' : ''}>
-                        <label for="${letter}">${opt}</label>
-                    </div>
-                `;
-            });
-            optionsHtml += `</div>`;
-        }
-
-        let feedbackHtml = "";
-        if (saved !== null) {
-            const isCorrect = (saved === q.correct);
-            feedbackHtml = `
-                <div class="feedback ${isCorrect ? 'correct' : 'incorrect'}">
-                    <h4>${isCorrect ? '✓ Correcto' : '✗ Incorrecto'}</h4>
-                    <p>${q.explanation}</p>
-                </div>
-            `;
-        }
-
-        const html = `
-            <div class="question-card">
-                <div class="question-text">
-                    <strong>${currentIndex + 1}/${questions.length}</strong><br>
-                    ${q.text}
-                </div>
-                ${optionsHtml}
-                <div class="btn-group">
-                    <button class="btn btn-check" id="checkBtn">🔍 Verificar</button>
-                    ${currentIndex < questions.length - 1 ? 
-                        '<button class="btn btn-reset" id="nextBtn">⏩ Siguiente</button>' : 
-                        '<button class="btn btn-reset" id="finishBtn">🏁 Finalizar</button>'}
-                </div>
-                ${feedbackHtml}
+    <h2>📖 Material Teórico</h2>
+    <ul>
+        <li>📙 <a href="GAUSSELECTRICO.pdf" target="_blank">Apunte: Flujo Eléctrico y Ley de Gauss</a></li>
+        <li>📝 <a href="#" onclick="return false;">Video: Aplicaciones - Simetría Esférica y Cilíndrica</a>
+            <div style="margin-top: 15px; position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 8px;">
+                <iframe 
+                    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
+                    src="https://www.youtube-nocookie.com/embed/E4i4Fm2QJ-o" 
+                    title="Simetría Esférica y Cilíndrica - Ley de Gauss" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen>
+                </iframe>
             </div>
-        `;
+        </li>
+    </ul>
 
-        questionArea.innerHTML = html;
+    <h2>✍️ Ejercitación y Problemas</h2>
+    <ul>
+        <li>✏️ <a href="Repartidodeproblemasdegauss.pdf" target="_blank">Repartido de ejercicios: Ley de Gauss</a></li>
+        <li>📂 <a href="respuestas_gauss.pdf" target="_blank">Guía de soluciones (Autocorrección)</a></li>
+    </ul>
 
-        // Eventos selección
-        document.querySelectorAll('.option').forEach(opt => {
-            opt.addEventListener('click', () => {
-                const radio = opt.querySelector('input');
-                if (radio) radio.checked = true;
-                document.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
-                opt.classList.add('selected');
-                const val = opt.getAttribute('data-value');
-                userAnswers[currentIndex] = val;
-                updateProgress();
-                render();
-            });
-        });
+    <div class="media-box">
+        <h3>Superficies Gaussianas</h3>
+        <img src="superficie_gaussiana.jpg" alt="Esquema de Ley de Gauss">
+        <p><small>Representación del flujo neto a través de una superficie cerrada.</small></p>
+    </div>
 
-        document.getElementById("checkBtn")?.addEventListener("click", () => {
-            if (userAnswers[currentIndex] === null) {
-                alert("⚠️ Selecciona una respuesta primero.");
-                return;
-            }
-            render();
-        });
+    <h2>💻 Laboratorio Virtual</h2>
+    <ul>
+        <li>🧪 <a href="simulador_gauss.html">Interactivos: Cargas y Flujo Eléctrico</a></li>
+        <li>🎮 <a href="gamificacion_gauss.html">Desafío: ¿Cuánta carga hay encerrada?</a></li>
+    </ul>
 
-        const nextBtn = document.getElementById("nextBtn");
-        if (nextBtn) {
-            nextBtn.addEventListener("click", () => {
-                if (userAnswers[currentIndex] === null) {
-                    alert("⚠️ Responde antes de continuar.");
-                    return;
-                }
-                currentIndex++;
-                render();
-                updateProgress();
-            });
-        }
+    <footer>
+        <p>👨‍🏫 <strong>Prof. Alejandro Parnizari</strong> · Física 3° · 2026</p>
+        <div style="margin: 15px 0;">
+            <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
+                <img alt="Licencia CC" src="https://i.creativecommons.org/l/by/4.0/88x31.png" />
+            </a>
+            <p><small>Este material se comparte bajo Licencia Creative Commons 4.0</small></p>
+        </div>
+    </footer>
 
-        const finishBtn = document.getElementById("finishBtn");
-        if (finishBtn) {
-            finishBtn.addEventListener("click", () => {
-                if (userAnswers[currentIndex] === null) {
-                    alert("⚠️ Responde antes de finalizar.");
-                    return;
-                }
-                currentIndex = questions.length;
-                render();
-                updateProgress();
-            });
-        }
-    }
-
-    window.resetQuiz = function() {
-        userAnswers.fill(null);
-        currentIndex = 0;
-        updateProgress();
-        render();
-    };
-
-    updateProgress();
-    render();
-</script>
 </body>
 </html>
